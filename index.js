@@ -13,7 +13,16 @@ module.exports = function() {
   newLine._transform = function(chunk, encoding, done) {
     var self = this;
     console.log('ENCODING', encoding);
-    var data = chunk.toString();
+
+    if (!Buffer.isBuffer(chunk)) {
+      this.push(chunk);
+      done();
+      return;
+    }
+
+    var data = chunk.toString('utf8');
+
+
     if (this._lastLineData) data = this._lastLineData + data;
 
     var lines = data.split(separator).map(function(value, i, arr){
@@ -23,7 +32,7 @@ module.exports = function() {
     this._lastLineData = lines.splice(lines.length - 1, 1)[0];
 
     lines.forEach(function(line){
-      self.push.bind(self)(line);
+      self.push(line);
       self.emit('line', line);
     });
 
