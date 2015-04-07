@@ -26,8 +26,10 @@ var nr = 0;
 newLine.on('line', function(line) {
   console.log(++nr + ': ' + line);
 });
-
 ```
+
+## issues
+does not work with binary files, and can corrupt binary data ;-(
 
 ## test
 
@@ -36,5 +38,4 @@ npm test
 ```
 
 ## license
-
 MIT

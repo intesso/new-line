@@ -24,10 +24,6 @@ module.exports = function() {
     }
 
     var data = chunk.toString('utf8');
-    this.push(decoder.write(data));
-    done();
-    return;
-
 
     if (this._lastLineData) data = this._lastLineData + data;
 
