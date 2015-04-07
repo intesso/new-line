@@ -1,7 +1,7 @@
 var test = require('tape');
 var fs = require('fs');
 var path = require('path');
-var newLineStream = require('../index2');
+var newLineStream = require('../string');
 var inputPath = path.resolve(__dirname + '/../package.json');
 var outputPath = path.resolve(__dirname + '/output/package.json');
 
@@ -53,8 +53,8 @@ test('read large binary file and pipe WITHOUT newLine stream to writable stream'
   });
 });
 
-// TODO make new-line work with binary files
-test('read large binary file and pipe with newLine stream to writable stream', function(t) {
+
+test('read large binary file, pipe with string version -> corrupted file', function(t) {
   var i = path.resolve(__dirname + '/fixtures/stream.html.pdf');
   var o = path.resolve(__dirname + '/output/newline.stream.html.pdf');
   var source = fs.createReadStream(i);
@@ -65,7 +65,7 @@ test('read large binary file and pipe with newLine stream to writable stream', f
   target.on('finish', function() {
     var input = fs.readFileSync(i, 'utf8');
     var output = fs.readFileSync(o, 'utf8');
-    t.equal(output, input);
+    t.notEqual(output, input);
     t.end();
   });
 });
@@ -103,8 +103,8 @@ function readNewLine(t) {
       case 10:
         t.equal(str, '10:     "type": "git",\n');
         break;
-      case 27:
-        t.equal(str, '27: }\n');
+      case 29:
+        t.equal(str, '29: }\n');
         break;
     }
   }

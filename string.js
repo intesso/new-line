@@ -12,7 +12,6 @@ module.exports = function() {
 
   newLine._transform = function(chunk, encoding, done) {
     var self = this;
-    console.log('ENCODING', encoding);
 
     if (!Buffer.isBuffer(chunk)) {
       this.push(chunk);
@@ -20,19 +19,20 @@ module.exports = function() {
       return;
     }
 
-    if (this._lastLineData) chunk = Buffer.concat([this._lastLineData, chunk]);
+    var data = chunk.toString('utf8');
 
-    var i, begin = 0;
-    for (i = 0; i< chunk.length; i++) {
-      if (chunk[i] === 10) {
-        var lbuf = chunk.slice(begin, i+1);
-        this.push(lbuf);
-        this.emit('line', lbuf.toString());
-        begin = i+1;
-      }
-    }
+    if (this._lastLineData) data = this._lastLineData + data;
 
-    if (begin < chunk.length - 1) this._lastLineData = chunk.slice(begin, chunk.length);
+    var lines = data.split(separator).map(function(value, i, arr){
+      if (arr.length -1 !== i) return value + separator;
+      return value;
+    });
+    this._lastLineData = lines.splice(lines.length - 1, 1)[0];
+
+    lines.forEach(function(line){
+      self.push(line);
+      self.emit('line', line);
+    });
 
     done();
   };

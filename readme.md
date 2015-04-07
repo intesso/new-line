@@ -1,6 +1,8 @@
 # new-line
 
 simple new line stream for node.js stream2
+it also handles files (streams) that contain bytes > 0x7f (binary files) gracefully,
+and does not change the bytes, other than e.g. `split` or `split2`.
 
 ## install
 
@@ -27,9 +29,6 @@ newLine.on('line', function(line) {
   console.log(++nr + ': ' + line);
 });
 ```
-
-## issues
-does not work with binary files, and can corrupt binary data ;-(
 
 ## test
 

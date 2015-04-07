@@ -1,7 +1,6 @@
 var test = require('tape');
 var fs = require('fs');
 var path = require('path');
-var utf8Stream = require('utf8-stream');
 var newLineStream = require('../index');
 var inputPath = path.resolve(__dirname + '/../package.json');
 var outputPath = path.resolve(__dirname + '/output/package.json');
@@ -54,23 +53,21 @@ test('read large binary file and pipe WITHOUT newLine stream to writable stream'
   });
 });
 
-// TODO make new-line work with binary files
-//test('read large binary file and pipe with newLine stream to writable stream', function(t) {
-//  var i = path.resolve(__dirname + '/fixtures/stream.html.pdf');
-//  var o = path.resolve(__dirname + '/output/newline.stream.html.pdf');
-//  var source = fs.createReadStream(i);
-//  var target = fs.createWriteStream(o, {encoding: 'utf8'});
-//  var newLine = newLineStream();
-//  var utf8 = utf8Stream();
-//  source.pipe(utf8).pipe(newLine).pipe(target);
-//
-//  target.on('finish', function() {
-//    var input = fs.readFileSync(i, 'utf8');
-//    var output = fs.readFileSync(o, 'utf8');
-//    t.equal(output, input);
-//    t.end();
-//  });
-//});
+test('read large binary file and pipe with newLine stream to writable stream', function(t) {
+  var i = path.resolve(__dirname + '/fixtures/stream.html.pdf');
+  var o = path.resolve(__dirname + '/output/newline.stream.html.pdf');
+  var source = fs.createReadStream(i);
+  var target = fs.createWriteStream(o, {encoding: 'utf8'});
+  var newLine = newLineStream();
+  source.pipe(newLine).pipe(target);
+
+  target.on('finish', function() {
+    var input = fs.readFileSync(i, 'utf8');
+    var output = fs.readFileSync(o, 'utf8');
+    t.equal(output, input);
+    t.end();
+  });
+});
 
 test('output file with line numbers', readNewLine);
 
@@ -105,8 +102,8 @@ function readNewLine(t) {
       case 10:
         t.equal(str, '10:     "type": "git",\n');
         break;
-      case 27:
-        t.equal(str, '27: }\n');
+      case 29:
+        t.equal(str, '29: }\n');
         break;
     }
   }

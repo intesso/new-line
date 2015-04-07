@@ -22,6 +22,8 @@
   },
   "homepage": "https://github.com/intesso/new-line",
   "devDependencies": {
+    "split": "^0.3.3",
+    "split2": "^0.2.1",
     "tape": "^4.0.0"
   }
 }
