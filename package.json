@@ -1,0 +1,27 @@
+{
+  "name": "new-line",
+  "version": "1.0.0",
+  "description": "simple new line stream for node.js stream2",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/intesso/new-line.git"
+  },
+  "keywords": [
+    "split",
+    "newline",
+    "stream"
+  ],
+  "author": "Marc Harter, Andi Neck",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/intesso/new-line/issues"
+  },
+  "homepage": "https://github.com/intesso/new-line",
+  "devDependencies": {
+    "tape": "^4.0.0"
+  }
+}
