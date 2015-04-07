@@ -1,5 +1,7 @@
 // original source: https://strongloop.com/strongblog/practical-examples-of-the-new-node-js-streams-api/
 
+var StringDecoder = require('string_decoder').StringDecoder;
+
 var stream = require('stream');
 // node.js 0.8 compatibility
 if (!stream.Transform) {
@@ -7,6 +9,7 @@ if (!stream.Transform) {
 }
 
 module.exports = function() {
+  var decoder = new StringDecoder('utf8');
   var newLine = new stream.Transform({objectMode: true});
   var separator = '\n';
 
@@ -21,6 +24,9 @@ module.exports = function() {
     }
 
     var data = chunk.toString('utf8');
+    this.push(decoder.write(data));
+    done();
+    return;
 
 
     if (this._lastLineData) data = this._lastLineData + data;
@@ -40,7 +46,9 @@ module.exports = function() {
   };
 
   newLine._flush = function(done) {
-    if (this._lastLineData) this.push(this._lastLineData);
+    if (this._lastLineData) this.push(decoder.write(this._lastLineData));
+    var end = decoder.end();
+    if (end) this.push(end);
     this._lastLineData = null;
     done();
   };
