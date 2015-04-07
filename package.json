@@ -4,7 +4,7 @@
   "description": "simple new line stream for node.js stream2",
   "main": "index.js",
   "scripts": {
-    "test": "npm test.js"
+    "test": "tape test/*.js"
   },
   "repository": {
     "type": "git",

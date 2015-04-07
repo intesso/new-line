@@ -16,7 +16,7 @@ npm install readable-stream
 
 ```js
 var fs = require('fs');
-var newLineStream = require('./index');
+var newLineStream = require('new-line');
 var source = fs.createReadStream('./package.json');
 var target = fs.createWriteStream('./out.json');
 var newLine = newLineStream();
