@@ -102,8 +102,8 @@ function readNewLine(t) {
       case 10:
         t.equal(str, '10:     "type": "git",\n');
         break;
-      case 29:
-        t.equal(str, '29: }\n');
+      case 30:
+        t.equal(str, '30: }\n');
         break;
     }
   }
